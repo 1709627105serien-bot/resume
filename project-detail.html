@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目详情 | 沈立然 - 昆明学院</title>
+<style>
+/* ============================================
+   浅蓝 · 3D · 玻璃拟态 · 项目详情页
+   ============================================ */
+:root {
+  --blue-50:  #f0f7ff;
+  --blue-100: #dceeff;
+  --blue-200: #b8ddfd;
+  --blue-300: #7cc5fc;
+  --blue-400: #4daef8;
+  --blue-500: #2094f3;
+  --blue-600: #1278d4;
+  --blue-700: #0d5faa;
+  --blue-800: #0a4a85;
+  --cyan-300: #67e8f9;
+  --cyan-400: #22d3ee;
+  --indigo-300: #a5b4fc;
+  --indigo-400: #818cf8;
+  --glass-bg: rgba(255,255,255,0.55);
+  --glass-bg-strong: rgba(255,255,255,0.72);
+  --glass-border: rgba(255,255,255,0.6);
+  --glass-highlight: rgba(255,255,255,0.8);
+  --text: #1a3a5c;
+  --text-secondary: #51738b;
+  --shadow-sm: 0 2px 12px rgba(30,120,200,0.08);
+  --shadow-md: 0 8px 32px rgba(30,100,180,0.12);
+  --shadow-lg: 0 16px 48px rgba(20,80,160,0.16);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  background: linear-gradient(160deg, #e8f4fd 0%, #d4eafa 20%, #e0eefb 40%, #ecf5fd 60%, #d8ecfa 80%, #e4f1fc 100%);
+  background-size: 400% 400%;
+  animation: bgFlow 25s ease infinite;
+  min-height:100vh;
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+@keyframes bgFlow {
+  0%,100%{ background-position:0% 50%; }
+  25%{ background-position:100% 0%; }
+  50%{ background-position:100% 100%; }
+  75%{ background-position:0% 100%; }
+}
+
+/* ===== 背景装饰 ===== */
+#bg-scene {
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+}
+
+.bg-orb {
+  position:absolute; border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, rgba(255,255,255,0.7), rgba(150,200,240,0.2));
+  filter:blur(60px);
+  animation:orbFloat 12s ease-in-out infinite;
+}
+.bg-orb:nth-child(1){ width:400px; height:400px; top:-120px; left:-100px; animation-delay:0s; }
+.bg-orb:nth-child(2){ width:350px; height:350px; bottom:-80px; right:-60px; animation-delay:-4s; animation-duration:14s; }
+.bg-orb:nth-child(3){ width:280px; height:280px; top:45%; left:55%; animation-delay:-8s; animation-duration:16s; }
+
+@keyframes orbFloat {
+  0%,100%{ transform:translate(0,0) scale(1); }
+  25%{ transform:translate(50px,-40px) scale(1.12); }
+  50%{ transform:translate(-30px,25px) scale(0.88); }
+  75%{ transform:translate(-40px,-20px) scale(1.06); }
+}
+
+/* ===== 顶部导航栏 ===== */
+.navbar {
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid rgba(180,210,240,0.4);
+  box-shadow:0 2px 20px rgba(30,100,180,0.08);
+  transition:all 0.3s ease;
+}
+
+.navbar.scrolled {
+  background:rgba(255,255,255,0.85);
+  box-shadow:0 4px 24px rgba(30,100,180,0.15);
+}
+
+.nav-inner {
+  max-width:1100px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0.9rem 2rem;
+}
+
+.nav-logo {
+  display:flex; align-items:center; gap:0.5rem;
+  font-size:1.3rem; font-weight:800;
+  background:linear-gradient(135deg,var(--blue-600),var(--blue-400),var(--cyan-400));
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:logoShine 4s ease infinite;
+  text-decoration:none;
+}
+
+.nav-logo .logo-avatar {
+  width:36px; height:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#dceeff,#7cc5fc);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem;
+  -webkit-text-fill-color:initial;
+  box-shadow:0 0 12px rgba(70,160,240,0.2);
+}
+
+@keyframes logoShine {
+  0%,100%{ background-position:0% 50%; }
+  50%{ background-position:100% 50%; }
+}
+
+.nav-links {
+  display:flex; list-style:none; gap:0.3rem; align-items:center;
+}
+
+.nav-links a {
+  text-decoration:none;
+  color:var(--text-secondary);
+  font-weight:600; font-size:0.92rem;
+  padding:0.5rem 1.1rem;
+  border-radius:10px;
+  transition:all 0.3s ease;
+  position:relative;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color:var(--blue-600);
+  background:rgba(32,148,243,0.08);
+}
+
+.nav-links a.active::after {
+  content:'';
+  position:absolute; bottom:2px; left:50%; transform:translateX(-50%);
+  width:20px; height:3px;
+  background:var(--blue-400);
+  border-radius:2px;
+}
+
+.nav-links .btn-back {
+  background:linear-gradient(135deg,var(--blue-400),var(--blue-500));
+  color:#fff !important;
+  padding:0.5rem 1.3rem;
+  border-radius:20px;
+  box-shadow:0 4px 14px rgba(32,148,243,0.25);
+}
+
+.nav-links .btn-back:hover {
+  box-shadow:0 6px 20px rgba(32,148,243,0.4);
+  transform:translateY(-1px);
+}
+
+/* 移动端菜单按钮 */
+.menu-toggle {
+  display:none;
+  background:none; border:none;
+  font-size:1.6rem; cursor:pointer;
+  color:var(--blue-600);
+  padding:0.3rem;
+}
+
+@media (max-width:768px) {
+  .menu-toggle { display:block; }
+  .nav-links {
+    display:none;
+    position:absolute; top:100%; left:0; right:0;
+    flex-direction:column;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(180,210,240,0.4);
+    padding:0.8rem 1.5rem;
+    gap:0.2rem;
+    box-shadow:0 8px 24px rgba(30,100,180,0.1);
+  }
+  .nav-links.open { display:flex; }
+  .nav-links a { padding:0.7rem 0.8rem; width:100%; }
+}
+
+/* ===== 玻璃拟态卡片 ===== */
+.glass-card {
+  background:var(--glass-bg);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid var(--glass-border);
+  border-radius:22px;
+  box-shadow:var(--shadow-md),
+             inset 0 1px 0 var(--glass-highlight),
+             inset 0 -2px 0 rgba(180,210,240,0.25);
+  position:relative;
+  overflow:hidden;
+}
+
+.glass-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:15%; right:15%; height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);
+  z-index:2;
+  pointer-events:none;
+}
+
+/* ===== 页面主体 ===== */
+.page-main {
+  position:relative; z-index:1;
+  max-width:1000px; margin:0 auto;
+  padding:6rem 2rem 3rem;
+}
+
+/* 面包屑导航 */
+.breadcrumb {
+  display:flex; align-items:center; gap:0.5rem;
+  margin-bottom:2rem;
+  font-size:0.9rem; color:var(--text-secondary);
+  flex-wrap:wrap;
+}
+
+.breadcrumb a {
+  color:var(--blue-500); text-decoration:none; font-weight:600;
+  transition:color 0.3s;
+}
+
+.breadcrumb a:hover { color:var(--blue-700); }
+
+.breadcrumb .sep { color:var(--blue-300); }
+
+/* 页面标题 */
+.page-header {
+  text-align:center; margin-bottom:3rem;
+}
+
+.page-header .tag {
+  display:inline-block;
+  font-size:0.8rem; font-weight:700;
+  color:var(--blue-500);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:0.5rem;
+  background:rgba(32,148,243,0.08);
+  padding:0.35rem 1rem;
+  border-radius:14px;
+}
+
+.page-header h1 {
+  font-size:2.5rem; font-weight:800;
+  background:linear-gradient(135deg,var(--blue-600),var(--blue-400),var(--cyan-400));
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:nameShine 4s ease infinite;
+  margin-bottom:0.5rem;
+}
+
+@keyframes nameShine {
+  0%,100%{ background-position:0% 50%; }
+  50%{ background-position:100% 50%; }
+}
+
+.page-header .subtitle {
+  color:var(--text-secondary); font-size:1rem; font-weight:500;
+}
+
+/* 项目内容区 */
+.project-section {
+  margin-bottom:2rem;
+}
+
+.project-section h2 {
+  font-size:1.5rem; color:var(--blue-700);
+  margin-bottom:1rem;
+  display:flex; align-items:center; gap:0.5rem;
+}
+
+.project-section h2 .ico { font-size:1.4rem; }
+
+.content-card {
+  padding:2rem;
+}
+
+.content-card p {
+  line-height:2; color:var(--text-secondary); font-size:0.95rem;
+}
+
+.content-card .hl {
+  color:var(--blue-500); font-weight:700;
+  background:linear-gradient(135deg,rgba(32,148,243,0.1),rgba(34,211,238,0.1));
+  padding:0.1rem 0.3rem; border-radius:4px;
+}
+
+/* 技术标签 */
+.tech-tags {
+  display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1rem;
+}
+
+.tech-tag {
+  font-size:0.82rem; font-weight:600;
+  padding:0.35rem 1rem;
+  border-radius:14px;
+  background:rgba(220,238,255,0.7);
+  color:var(--blue-600);
+  border:1px solid rgba(180,210,240,0.5);
+  backdrop-filter:blur(8px);
+}
+
+/* 特性列表 */
+.feature-list {
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:0.8rem;
+  margin-top:1rem;
+}
+
+.feature-list li {
+  display:flex; align-items:flex-start; gap:0.6rem;
+  padding:0.8rem;
+  background:rgba(240,247,255,0.5);
+  border-radius:12px;
+  font-size:0.9rem; color:var(--text-secondary);
+  line-height:1.6;
+}
+
+.feature-list .check {
+  color:var(--blue-400); font-weight:700; flex-shrink:0; margin-top:1px;
+}
+
+/* 代码块展示 */
+.code-block {
+  background:rgba(10,30,60,0.85);
+  color:#c9d1d9;
+  border-radius:14px;
+  padding:1.5rem;
+  margin-top:1rem;
+  overflow-x:auto;
+  font-family:'Cascadia Code','Fira Code','Consolas',monospace;
+  font-size:0.85rem;
+  line-height:1.8;
+}
+
+.code-block .kw { color:#ff7b72; }
+.code-block .fn { color:#d2a8ff; }
+.code-block .str { color:#a5d6ff; }
+.code-block .cm { color:#8b949e; font-style:italic; }
+
+/* 图片占位 / 展示区 */
+.showcase {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+
+.showcase-item {
+  aspect-ratio:16/10;
+  background:linear-gradient(135deg,rgba(200,225,250,0.4),rgba(180,220,240,0.3));
+  border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.5rem;
+  border:1px solid rgba(180,210,240,0.35);
+}
+
+/* 项目导航（上一篇/下一篇） */
+.project-nav {
+  display:flex; justify-content:space-between; gap:1rem;
+  margin-top:2rem;
+}
+
+.project-nav a {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.8rem 1.5rem;
+  border-radius:20px;
+  font-weight:600; font-size:0.9rem;
+  text-decoration:none;
+  transition:all 0.3s ease;
+  background:rgba(255,255,255,0.5);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(180,210,240,0.4);
+  color:var(--blue-600);
+}
+
+.project-nav a:hover {
+  background:rgba(32,148,243,0.08);
+  border-color:var(--blue-400);
+  transform:translateY(-2px);
+}
+
+/* ===== 页脚 Footer ===== */
+.site-footer {
+  position:relative; z-index:1;
+  background:rgba(255,255,255,0.5);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(180,210,240,0.35);
+  padding:2.5rem 2rem 1.5rem;
+  margin-top:2rem;
+}
+
+.footer-inner {
+  max-width:1000px; margin:0 auto;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.footer-brand {
+  display:flex; align-items:center; gap:0.5rem;
+  font-size:1.1rem; font-weight:700; color:var(--blue-600);
+}
+
+.footer-links {
+  display:flex; gap:1.5rem; list-style:none; flex-wrap:wrap;
+}
+
+.footer-links a {
+  text-decoration:none; color:var(--text-secondary);
+  font-size:0.9rem; font-weight:500;
+  transition:color 0.3s;
+}
+
+.footer-links a:hover { color:var(--blue-500); }
+
+.footer-bottom {
+  max-width:1000px; margin:0 auto;
+  text-align:center;
+  padding-top:1.2rem;
+  border-top:1px solid rgba(180,210,240,0.25);
+  color:var(--text-secondary); font-size:0.85rem;
+}
+
+.footer-bottom .beat {
+  display:inline-block;
+  animation:heartBeat 1.4s ease infinite;
+  color:var(--blue-400);
+}
+
+@keyframes heartBeat {
+  0%,100%{ transform:scale(1); }
+  15%{ transform:scale(1.25); }
+  30%{ transform:scale(1); }
+}
+
+@media (max-width:768px) {
+  .footer-inner { flex-direction:column; text-align:center; }
+  .footer-links { justify-content:center; }
+  .page-header h1 { font-size:1.8rem; }
+  .feature-list { grid-template-columns:1fr; }
+  .project-nav { flex-direction:column; }
+}
+
+/* ===== 滚动条 ===== */
+::-webkit-scrollbar{ width:6px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--blue-300),var(--blue-400),var(--cyan-400));
+  border-radius:3px;
+}
+
+::selection{
+  background:rgba(32,148,243,0.2);
+  color:var(--blue-700);
+}
+</style>
+</head>
+<body>
+
+<!-- 背景装饰 -->
+<div id="bg-scene">
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+</div>
+
+<!-- ============ 顶部导航栏 ============ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-avatar">💠</span>
+      沈立然
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="index.html#about">关于我</a></li>
+      <li><a href="index.html#skills">专业技能</a></li>
+      <li><a href="index.html#projects">项目经历</a></li>
+      <li><a href="index.html#contact">联系方式</a></li>
+      <li><a href="project-detail.html" class="btn-back active">📂 项目详情</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ 页面主体 ============ -->
+<main class="page-main">
+
+  <!-- 面包屑导航 -->
+  <div class="breadcrumb">
+    <a href="index.html">🏠 首页</a>
+    <span class="sep">›</span>
+    <span>📂 项目详情</span>
+  </div>
+
+  <!-- 页面标题 -->
+  <div class="page-header">
+    <p class="tag">Project Detail</p>
+    <h1>项目详情展示</h1>
+    <p class="subtitle">以下是我在大学期间完成的部分课程项目详细介绍</p>
+  </div>
+
+  <!-- ===== 项目一：金融数据可视化 ===== -->
+  <section class="project-section" id="proj1">
+    <h2><span class="ico">📊</span> 项目一：金融数据可视化分析</h2>
+    <div class="glass-card content-card">
+      <p>
+        本项目是<span class="hl">大数据应用案例分析</span>课程的实验十一，
+        使用 <span class="hl">Python</span> 爬取真实股票市场数据，
+        计算多种技术指标（<span class="hl">MACD</span>、<span class="hl">RSI</span>、<span class="hl">布林带</span>），
+        构建<span class="hl">机器学习模型</span>预测涨跌方向，并完成风险分析和可视化报告撰写。
+      </p>
+
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Pandas</span>
+        <span class="tech-tag">NumPy</span>
+        <span class="tech-tag">Scikit-learn</span>
+        <span class="tech-tag">Matplotlib</span>
+        <span class="tech-tag">yfinance</span>
+        <span class="tech-tag">MACD/RSI</span>
+      </div>
+
+      <h3 style="margin-top:1.5rem; color:var(--blue-700); font-size:1.05rem;">✨ 项目亮点</h3>
+      <ul class="feature-list">
+        <li><span class="check">✅</span> 使用 yfinance API 爬取真实股票历史数据，数据来源可靠</li>
+        <li><span class="check">✅</span> 计算 MACD、RSI、布林带等技术指标，辅助交易决策</li>
+        <li><span class="check">✅</span> 构建随机森林 & XGBoost 模型预测股价涨跌方向</li>
+        <li><span class="check">✅</span> 使用交叉验证评估模型性能，防止过拟合</li>
+        <li><span class="check">✅</span> Matplotlib + Seaborn 生成专业级可视化图表</li>
+        <li><span class="check">✅</span> 完整的风险分析报告，包含 VaR 和最大回撤计算</li>
+      </ul>
+
+      <!-- 代码示例 -->
+      <h3 style="margin-top:1.5rem; color:var(--blue-700); font-size:1.05rem;">💻 核心代码示例</h3>
+      <div class="code-block">
+<span class="cm"># 技术指标计算示例</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="kw">def</span> <span class="fn">calculate_macd</span>(df, fast=12, slow=26, signal=9):
+    <span class="cm">"""计算 MACD 指标"""</span>
+    df[<span class="str">'EMA_fast'</span>] = df[<span class="str">'Close'</span>].ewm(span=fast).mean()
+    df[<span class="str">'EMA_slow'</span>] = df[<span class="str">'Close'</span>].ewm(span=slow).mean()
+    df[<span class="str">'MACD'</span>] = df[<span class="str">'EMA_fast'</span>] - df[<span class="str">'EMA_slow'</span>]
+    df[<span class="str">'Signal'</span>] = df[<span class="str">'MACD'</span>].ewm(span=signal).mean()
+    df[<span class="str">'Histogram'</span>] = df[<span class="str">'MACD'</span>] - df[<span class="str">'Signal'</span>]
+    <span class="kw">return</span> df
+
+<span class="kw">def</span> <span class="fn">calculate_rsi</span>(df, period=14):
+    <span class="cm">"""计算 RSI 指标"""</span>
+    delta = df[<span class="str">'Close'</span>].diff()
+    gain = delta.where(delta > 0, 0).rolling(period).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(period).mean()
+    rs = gain / loss
+    df[<span class="str">'RSI'</span>] = 100 - (100 / (1 + rs))
+    <span class="kw">return</span> df
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 项目二：生物医学图像分类 ===== -->
+  <section class="project-section" id="proj2">
+    <h2><span class="ico">🩻</span> 项目二：生物医学图像分类</h2>
+    <div class="glass-card content-card">
+      <p>
+        本项目是<span class="hl">大数据应用案例分析</span>课程的实验九，
+        使用 <span class="hl">ResNet18</span> 迁移学习对胸部X光片进行<span class="hl">肺炎二分类</span>，
+        实现 <span class="hl">Grad-CAM</span> 可视化解释模型决策过程，最终 <span class="hl">AUC 达到 0.96</span>。
+      </p>
+
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">PyTorch</span>
+        <span class="tech-tag">ResNet18</span>
+        <span class="tech-tag">Grad-CAM</span>
+        <span class="tech-tag">Transfer Learning</span>
+        <span class="tech-tag">torchvision</span>
+        <span class="tech-tag">OpenCV</span>
+      </div>
+
+      <h3 style="margin-top:1.5rem; color:var(--blue-700); font-size:1.05rem;">✨ 项目亮点</h3>
+      <ul class="feature-list">
+        <li><span class="check">✅</span> 使用 ImageNet 预训练的 ResNet18 进行迁移学习</li>
+        <li><span class="check">✅</span> 数据增强（旋转、翻转、色彩抖动）提高模型泛化能力</li>
+        <li><span class="check">✅</span> 实现 Grad-CAM 热力图，可视化模型关注区域</li>
+        <li><span class="check">✅</span> AUC 达到 0.96，模型性能优异</li>
+        <li><span class="check">✅</span> 完整的训练/验证/测试流程及混淆矩阵分析</li>
+      </ul>
+
+      <!-- 展示区 -->
+      <h3 style="margin-top:1.5rem; color:var(--blue-700); font-size:1.05rem;">📸 结果展示</h3>
+      <div class="showcase">
+        <div class="showcase-item">🫁<br><small style="font-size:0.7rem;color:var(--text-secondary);">原始X光片</small></div>
+        <div class="showcase-item">🔥<br><small style="font-size:0.7rem;color:var(--text-secondary);">Grad-CAM热力图</small></div>
+        <div class="showcase-item">📈<br><small style="font-size:0.7rem;color:var(--text-secondary);">ROC曲线 AUC=0.96</small></div>
+        <div class="showcase-item">📊<br><small style="font-size:0.7rem;color:var(--text-secondary);">混淆矩阵</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 项目三：个人网站 ===== -->
+  <section class="project-section" id="proj3">
+    <h2><span class="ico">🎨</span> 项目三：个人网站设计与开发</h2>
+    <div class="glass-card content-card">
+      <p>
+        本项目是<span class="hl">移动应用开发</span>课程的期末大作业，
+        独立完成<span class="hl">个人网站设计 + 代码编写 + GitHub 托管 + GitHub Pages 部署</span>全流程。
+        采用纯原生 <span class="hl">HTML/CSS/JavaScript</span> 技术栈，实现了<span class="hl">3D玻璃拟态</span>视觉风格和<span class="hl">响应式布局</span>。
+      </p>
+
+      <div class="tech-tags">
+        <span class="tech-tag">HTML5</span>
+        <span class="tech-tag">CSS3</span>
+        <span class="tech-tag">JavaScript</span>
+        <span class="tech-tag">Glass Morphism</span>
+        <span class="tech-tag">3D CSS</span>
+        <span class="tech-tag">Responsive Design</span>
+        <span class="tech-tag">GitHub Pages</span>
+      </div>
+
+      <h3 style="margin-top:1.5rem; color:var(--blue-700); font-size:1.05rem;">✨ 设计特点</h3>
+      <ul class="feature-list">
+        <li><span class="check">✅</span> 顶部固定导航栏，支持滚动高亮和移动端菜单</li>
+        <li><span class="check">✅</span> 6个独立 Section 板块，内容层次分明</li>
+        <li><span class="check">✅</span> 玻璃拟态卡片 + 3D 倾斜交互动效</li>
+        <li><span class="check">✅</span> SVG 环形技能进度图，滚动触发动画</li>
+        <li><span class="check">✅</span> 流动渐变背景 + 动态光斑装饰</li>
+        <li><span class="check">✅</span> 完全响应式设计，适配手机/平板/桌面</li>
+        <li><span class="check">✅</span> 配套子网页（当前页面），展示详细项目信息</li>
+        <li><span class="check">✅</span> 零依赖，纯原生代码，打开即用</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 项目导航 -->
+  <div class="project-nav">
+    <a href="index.html">← 返回首页</a>
+    <a href="#proj1">↑ 回到顶部项目</a>
+  </div>
+
+</main>
+
+<!-- ============ 页脚 Footer ============ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span>💠</span> 沈立然 · 个人主页
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="index.html#about">关于我</a></li>
+      <li><a href="index.html#skills">专业技能</a></li>
+      <li><a href="index.html#projects">项目经历</a></li>
+      <li><a href="index.html#contact">联系方式</a></li>
+      <li><a href="project-detail.html">项目详情</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <p>Made with <span class="beat">💙</span> by 沈立然 · 昆明学院 © 2026</p>
+    <p style="margin-top:0.3rem;font-size:0.75rem;">✦ 云南昆明 · 每一天都要元气满满 ✦</p>
+  </div>
+</footer>
+
+<!-- ============ JavaScript ============ -->
+<script>
+// 移动端菜单切换
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  });
+});
+
+// 导航栏滚动效果
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+</script>
+</body>
+</html>
